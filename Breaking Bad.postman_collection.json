@@ -1,0 +1,391 @@
+{
+	"info": {
+		"_postman_id": "44aa4611-b82d-4012-adac-f5ead7b0b6d5",
+		"name": "Breaking Bad",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "What is the episode titled Rebecca",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6dedbe5b-8314-4083-9aca-eccca480f8d9",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Rebecca\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"     if (item[\"title\"]== \"Rebecca\") {\r",
+							"         console.log(\"Episode ID for Rebecca is \" + item[\"episode_id\"])\r",
+							"     }\r",
+							" }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BB_URL}}/episodes",
+					"host": [
+						"{{BB_URL}}"
+					],
+					"path": [
+						"episodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "In which episode does Gustavo Fring make his first appearance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "866cbafe-c8a1-4643-b25c-ddc21a7275c5",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Gustavo Fring\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"     if (item[\"characters\"].includes (\"Gustavo Fring\")) {\r",
+							"         console.log(\"The first appearance of Gustavo Fring was on episode \" + item[\"episode\"],  \"titled \" + item[\"title\"] )\r",
+							"         break;\r",
+							"     }\r",
+							" }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BB_URL}}/episodes",
+					"host": [
+						"{{BB_URL}}"
+					],
+					"path": [
+						"episodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": " Name 1 character that is in both Breaking Bad and Better Call Saul",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e111f1b-ec58-4776-9d60-c59c3ce29ee5",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"series\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							" \r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"    var category = \"Breaking Bad, Better Call Saul\"\r",
+							"     \r",
+							"      if (item[\"category\"] == category ) {\r",
+							"        \r",
+							"        console.log(\"The name of the character that appears in both series is \" + item[\"name\"])\r",
+							"        break;\r",
+							"     }\r",
+							" }\r",
+							"     \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{characters}}/characters",
+					"host": [
+						"{{characters}}"
+					],
+					"path": [
+						"characters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": " Which character is portrayed by Patrick Fabian?",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1cb278e8-959f-40d3-a367-c09e6a9b9ebe",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Patrick Fabian\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"     if (item[\"portrayed\"] == \"Patrick Fabian\") {\r",
+							"        \r",
+							"         console.log(\"The character portrayed by Patrick Fabian is \" + item[\"name\"])\r",
+							"         break;\r",
+							"     }\r",
+							" }\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BB_URL}}/characters",
+					"host": [
+						"{{BB_URL}}"
+					],
+					"path": [
+						"characters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Who's words are these \"Chemistry is the study of matter, but I prefer to see it at the study of change.\"?",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5ad4929d-cddb-4023-8fcc-27bcffd668ba",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"quote_id\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"\r",
+							"     var author = item[\"author\"]\r",
+							"     \r",
+							"\r",
+							"      if (item[\"quote\"] == (\"Chemistry is the study of matter, but I prefer to see it at the study of change\")) {\r",
+							"          \r",
+							"        console.log(\"The author of the quote is \" + item[\"author\"] + \"(\" + item[\"series\"] )\r",
+							"        \r",
+							"         break;\r",
+							"     }\r",
+							" }\r",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BB_URL}}/quotes",
+					"host": [
+						"{{BB_URL}}"
+					],
+					"path": [
+						"quotes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Subtract your age from the total number of deaths",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "88324390-ca95-4c92-85e8-2b0ee234e93c",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"deaths\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"     var deathCount = item[\"deathCount\"] \r",
+							"         console.log(deathCount-25)\r",
+							"         break;\r",
+							"     }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{deaths}}/death-count",
+					"host": [
+						"{{deaths}}"
+					],
+					"path": [
+						"death-count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Print the season of the episode that has the most number of deaths?",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fcef473e-eab7-429e-88d5-1e06c528a2f2",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"episode\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							" \r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"    var numberOfDeaths = 167\r",
+							"     \r",
+							"      if (item[\"number_of_deaths\"] == numberOfDeaths ) {\r",
+							"        \r",
+							"        console.log(\"The season of episode that has most deaths is Season \" + item[\"season\"])\r",
+							"        break;\r",
+							"     }\r",
+							" }\r",
+							"     \r",
+							"     \r",
+							" \r",
+							"    \r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{deaths}}/deaths",
+					"host": [
+						"{{deaths}}"
+					],
+					"path": [
+						"deaths"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "What is the title of episode 8 of season 2 of Better Call Saul?",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a58e3c72-deed-4e9c-a774-7a950830b486",
+						"exec": [
+							"\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"title\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							"var episodeID = 80\r",
+							"\r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"     \r",
+							"     if (item[\"episode_id\"] == episodeID) {\r",
+							"         \r",
+							"         console.log(\"The title of episode 8 season 2 of Better Call Saul is \" + item[\"title\"])\r",
+							"         break;\r",
+							"     }\r",
+							" }\r",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BB_URL}}/episodes",
+					"host": [
+						"{{BB_URL}}"
+					],
+					"path": [
+						"episodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Which episode aired on the 19th of August 2012",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "efd2249f-eb01-4062-a47f-7ecbc8ba165e",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"episode_id\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"     if (item[\"air_date\"] == (\"08-19-2012\")) {\r",
+							"        \r",
+							"         console.log(\"Episode aired on the 19th of August is \" + item[\"title\"])\r",
+							"         break;\r",
+							"     }\r",
+							" }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BB_URL}}/episodes",
+					"host": [
+						"{{BB_URL}}"
+					],
+					"path": [
+						"episodes"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
