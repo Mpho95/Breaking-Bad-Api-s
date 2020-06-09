@@ -265,18 +265,27 @@
 							"    pm.expect(pm.response.text()).to.include(\"episode\");\r",
 							"});\r",
 							"var jsonObject = JSON.parse(responseBody);\r",
-							" \r",
+							"var episodeOfMostDeaths = 0; \r",
+							"var maxNumberOfDeaths = 0;\r",
+							"\r",
 							" for (var i = 0; i< jsonObject.length; i++) {\r",
 							"     var item = jsonObject[i];\r",
-							"    var numberOfDeaths = 167\r",
-							"     \r",
-							"      if (item[\"number_of_deaths\"] == numberOfDeaths ) {\r",
+							"    \r",
+							"      if (item[\"number_of_deaths\"] > maxNumberOfDeaths) {\r",
 							"        \r",
-							"        console.log(\"The season of episode that has most deaths is Season \" + item[\"season\"])\r",
-							"        break;\r",
+							"       maxNumberOfDeaths = item[\"number_of_deaths\"];\r",
+							"\r",
+							"       console.log(maxNumberOfDeaths);\r",
 							"     }\r",
+							"\r",
 							" }\r",
-							"     \r",
+							"  for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i]; \r",
+							"\r",
+							"     if (item[\"number_of_deaths\"] == maxNumberOfDeaths) {\r",
+							"       console.log(item[\"season\"])\r",
+							"     }\r",
+							"  }\r",
 							"     \r",
 							" \r",
 							"    \r",
@@ -314,14 +323,17 @@
 							"    pm.expect(pm.response.text()).to.include(\"title\");\r",
 							"});\r",
 							"var jsonObject = JSON.parse(responseBody);\r",
-							"var episodeID = 80\r",
+							"var episodeWanted = \"3\";\r",
+							"var seasonWanted = \"2\";\r",
+							"\r",
 							"\r",
 							" for (var i = 0; i< jsonObject.length; i++) {\r",
 							"     var item = jsonObject[i];\r",
 							"     \r",
-							"     if (item[\"episode_id\"] == episodeID) {\r",
+							"     \r",
+							"     if (item[\"episode\"] == episodeWanted && item[\"season\"] == seasonWanted) {\r",
 							"         \r",
-							"         console.log(\"The title of episode 8 season 2 of Better Call Saul is \" + item[\"title\"])\r",
+							"         console.log(\"The title of episode \" + episodeWanted + \" season \" + seasonWanted + \" of Better Call Saul is \" + item[\"title\"])\r",
 							"         break;\r",
 							"     }\r",
 							" }\r",
@@ -335,12 +347,18 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{BB_URL}}/episodes",
+					"raw": "{{BB_URL}}/episodes?series=Better+Call+Saul",
 					"host": [
 						"{{BB_URL}}"
 					],
 					"path": [
 						"episodes"
+					],
+					"query": [
+						{
+							"key": "series",
+							"value": "Better+Call+Saul"
+						}
 					]
 				}
 			},
@@ -381,6 +399,53 @@
 					],
 					"path": [
 						"episodes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Who is portraying the character with the name Walter White?",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e5cff8b-86be-40a0-ac1d-1f074afb9029",
+						"exec": [
+							"pm.test(\"Body is correct\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Walter White\");\r",
+							"});\r",
+							"\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							"\r",
+							"for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"  if (item[\"name\"] == \"Walter White\") {\r",
+							"\r",
+							"      console.log(item[\"portrayed\"])\r",
+							"  }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BB_URL}}/characters?={{Walter White}}",
+					"host": [
+						"{{BB_URL}}"
+					],
+					"path": [
+						"characters"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "{{Walter White}}"
+						}
 					]
 				}
 			},
