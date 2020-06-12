@@ -88,24 +88,23 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9e111f1b-ec58-4776-9d60-c59c3ce29ee5",
+						"id": "dbf75b5e-f16d-4675-80df-fbe10523d5c0",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"series\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"category\");\r",
 							"});\r",
 							"var jsonObject = JSON.parse(responseBody);\r",
+							"var category = \"Breaking Bad, Better Call Saul\";\r",
 							" \r",
 							" for (var i = 0; i< jsonObject.length; i++) {\r",
 							"     var item = jsonObject[i];\r",
-							"    var category = \"Breaking Bad, Better Call Saul\"\r",
-							"     \r",
+							"    \r",
 							"      if (item[\"category\"] == category ) {\r",
-							"        \r",
-							"        console.log(\"The name of the character that appears in both series is \" + item[\"name\"])\r",
+							"          \r",
+							"        console.log(\"The name is \" + item[\"name\"])\r",
 							"        break;\r",
-							"     }\r",
+							"      }\r",
 							" }\r",
-							"     \r",
 							""
 						],
 						"type": "text/javascript"
@@ -175,7 +174,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5ad4929d-cddb-4023-8fcc-27bcffd668ba",
+						"id": "cae27339-7cc4-47bf-ae0e-13fb19a8ab4e",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"quote_id\");\r",
@@ -187,14 +186,17 @@
 							"     var author = item[\"author\"]\r",
 							"     \r",
 							"\r",
-							"      if (item[\"quote\"] == (\"Chemistry is the study of matter, but I prefer to see it at the study of change\")) {\r",
+							"      if (item[\"quote\"] == \"Chemistry is the study of matter, but I prefer to see it at the study of change.\") {\r",
 							"          \r",
-							"        console.log(\"The author of the quote is \" + item[\"author\"] + \"(\" + item[\"series\"] )\r",
+							"        console.log(\"The author of the quote is \" + item[\"author\"])\r",
 							"        \r",
 							"         break;\r",
 							"     }\r",
 							" }\r",
-							" "
+							" \r",
+							"\r",
+							"pm.environment.set(\"Author\", item[\"author\"]);\r",
+							"pm.environment.get(\"Author\");"
 						],
 						"type": "text/javascript"
 					}
@@ -259,7 +261,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "fcef473e-eab7-429e-88d5-1e06c528a2f2",
+						"id": "bee3e5b8-bc32-4b29-9fc7-0555f93ec448",
 						"exec": [
 							"pm.test(\"Body matches string\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(\"episode\");\r",
@@ -267,25 +269,24 @@
 							"var jsonObject = JSON.parse(responseBody);\r",
 							"var episodeOfMostDeaths = 0; \r",
 							"var maxNumberOfDeaths = 0;\r",
-							"\r",
+							"var arrayItem = new Array(); \r",
 							" for (var i = 0; i< jsonObject.length; i++) {\r",
 							"     var item = jsonObject[i];\r",
 							"    \r",
 							"      if (item[\"number_of_deaths\"] > maxNumberOfDeaths) {\r",
-							"        \r",
+							"       arrayItem = item; \r",
 							"       maxNumberOfDeaths = item[\"number_of_deaths\"];\r",
-							"\r",
-							"       console.log(maxNumberOfDeaths);\r",
+							"       \r",
+							"        \r",
 							"     }\r",
 							"\r",
 							" }\r",
-							"  for (var i = 0; i< jsonObject.length; i++) {\r",
-							"     var item = jsonObject[i]; \r",
+							"      \r",
+							" console.log(arrayItem[\"season\"]);\r",
+							" \r",
 							"\r",
-							"     if (item[\"number_of_deaths\"] == maxNumberOfDeaths) {\r",
-							"       console.log(item[\"season\"])\r",
-							"     }\r",
-							"  }\r",
+							"   \r",
+							"\r",
 							"     \r",
 							" \r",
 							"    \r",
@@ -446,6 +447,55 @@
 							"key": "",
 							"value": "{{Walter White}}"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Getting characters randomly",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80bfe35d-637d-4dbc-adf8-e2a1dd914a3a",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+							"});\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							"var category = \"Breaking Bad, Better Call Saul\";\r",
+							"var charactersInBoth = new Array();\r",
+							"//var randomCharacters = \"\";\r",
+							"\r",
+							" \r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"     \r",
+							"\r",
+							"      if (item[\"category\"] == category ) {\r",
+							"          \r",
+							"        charactersInBoth = item;\r",
+							"     \r",
+							"     }\r",
+							" }\r",
+							" charactersInBoth[Math.floor(Math.random() * charactersInBoth.length)];\r",
+							"console.log(\"The name of the character is \" + charactersInBoth[\"name\"]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{characters}}/characters",
+					"host": [
+						"{{characters}}"
+					],
+					"path": [
+						"characters"
 					]
 				}
 			},
