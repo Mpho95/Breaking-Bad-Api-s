@@ -411,21 +411,23 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "9e5cff8b-86be-40a0-ac1d-1f074afb9029",
+						"id": "8a423a9a-5eb7-4d72-b4d7-26aac5165f33",
 						"exec": [
-							"pm.test(\"Body is correct\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"Walter White\");\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"Author\"));\r",
 							"});\r",
-							"\r",
 							"var jsonObject = JSON.parse(responseBody);\r",
-							"\r",
-							"for (var i = 0; i< jsonObject.length; i++) {\r",
+							" for (var i = 0; i< jsonObject.length; i++) {\r",
 							"     var item = jsonObject[i];\r",
-							"  if (item[\"name\"] == \"Walter White\") {\r",
+							"     if (item[\"name\"] == pm.environment.get(\"Author\")) {\r",
+							"        \r",
+							"         console.log(item[\"portrayed\"])\r",
+							"         break;\r",
+							"     }\r",
+							" }\r",
 							"\r",
-							"      console.log(item[\"portrayed\"])\r",
-							"  }\r",
-							"}"
+							"\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -433,27 +435,27 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Author",
+						"value": "Jesse Pinkman",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "{{BB_URL}}/characters?={{Walter White}}",
+					"raw": "{{BB_URL}}/characters",
 					"host": [
 						"{{BB_URL}}"
 					],
 					"path": [
 						"characters"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": "{{Walter White}}"
-						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Getting characters randomly",
+			"name": "Getting characters randomly in an array",
 			"event": [
 				{
 					"listen": "test",
@@ -466,21 +468,30 @@
 							"var jsonObject = JSON.parse(responseBody);\r",
 							"var category = \"Breaking Bad, Better Call Saul\";\r",
 							"var charactersInBoth = new Array();\r",
-							"//var randomCharacters = \"\";\r",
+							"var randomCharacters = \"\";\r",
 							"\r",
 							" \r",
 							" for (var i = 0; i< jsonObject.length; i++) {\r",
 							"     var item = jsonObject[i];\r",
-							"     \r",
 							"\r",
 							"      if (item[\"category\"] == category ) {\r",
 							"          \r",
-							"        charactersInBoth = item;\r",
-							"     \r",
+							"        charactersInBoth.push(item);\r",
+							"    \r",
 							"     }\r",
+							"     \r",
 							" }\r",
-							" charactersInBoth[Math.floor(Math.random() * charactersInBoth.length)];\r",
-							"console.log(\"The name of the character is \" + charactersInBoth[\"name\"]);"
+							"\r",
+							"\r",
+							"  \r",
+							"  randomCharacters = Math.floor(Math.random() * charactersInBoth.length - 1);\r",
+							"   if (randomCharacters == -1) {\r",
+							"       randomCharacters = 0;\r",
+							"   }\r",
+							"   console.log(charactersInBoth[randomCharacters][\"name\"]);\r",
+							"\r",
+							"   console.log(charactersInBoth);\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -496,6 +507,58 @@
 					],
 					"path": [
 						"characters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checking if the data is correct",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f752851f-c14b-4c04-ae92-15bbb7c82148",
+						"exec": [
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"title\");\r",
+							"});\r",
+							"\r",
+							"var jsonObject = JSON.parse(responseBody);\r",
+							"var firstAppearance = new Array();\r",
+							"var episodeID = 0;\r",
+							"var characterName = \"\";\r",
+							"var titleOfEpisode = \"\";\r",
+							"\r",
+							"for (var i = 0; i< jsonObject.length; i++) {\r",
+							"     var item = jsonObject[i];\r",
+							"\r",
+							"      if (item[\"episode_id\"] > episodeID) {\r",
+							"          \r",
+							"        firstAppearance.push(item);\r",
+							"    \r",
+							"     } \r",
+							"\r",
+							"     \r",
+							" }\r",
+							"\r",
+							"\r",
+							"console.log(firstAppearance[\"episode_id\"]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BB_URL}}/episodes",
+					"host": [
+						"{{BB_URL}}"
+					],
+					"path": [
+						"episodes"
 					]
 				}
 			},
